@@ -42,13 +42,13 @@ export const defaultActiveActionView = actionViewOptions[0].value;
 export const chatQustions = [];
 
 export const productList = [
-  {
-    name: "智能问数",
-    img: "icon-xinjianduihua",
-    type: "dataAgent",
-    placeholder: "AI会完成你的数据分析任务",
-    color: "text-[#4040FF]",
-  },
+  // {
+  //   name: "智能问数",
+  //   img: "icon-xinjianduihua",
+  //   type: "dataAgent",
+  //   placeholder: "AI会完成你的数据分析任务",
+  //   color: "text-[#4040FF]",
+  // },
   {
     name: "网页模式",
     img: "icon-diannao",
@@ -91,8 +91,8 @@ export const InputSize: Record<string, string> = {
 
 export const demoList = [
   {
-    title: "超市销售数据分析",
-    description: "帮我分析一下国内销售数据",
+    title: "虫情数据分析",
+    description: "帮我分析一下12月虫情工单数据",
     tag: "数据分析",
     videoUrl:
       "https://private-user-images.githubusercontent.com/49786633/469171151-657bbe61-5516-4ab9-84c2-c6ca75cc4a6f.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTM2OTE5ODgsIm5iZiI6MTc1MzY5MTY4OCwicGF0aCI6Ii80OTc4NjYzMy80NjkxNzExNTEtNjU3YmJlNjEtNTUxNi00YWI5LTg0YzItYzZjYTc1Y2M0YTZmLm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MjglMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzI4VDA4MzQ0OFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTJkMDNlNTkxNzFkNjFlYTI1MTAzNTIyZWM0YzA1MzE5MTY4NDYyYTg5MjUxZWY0Mjg0OWU1ODUxNGZkNTU3ZTEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.BRatyWFZm91TAvRn1iss7DMPWLXIoRm9geqaN6af7cI",
