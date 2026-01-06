@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # =====================
-# 
-# 
+#
+#
 # Author: liumin.423
 # Date:   2025/7/8
 # =====================
@@ -9,7 +9,7 @@ import json
 import os
 from typing import List, Any, Optional
 
-from litellm import acompletion
+from litellm import acompletion, api_base
 
 from genie_tool.util.log_util import timer, AsyncTimer
 from genie_tool.util.sensitive_detection import SensitiveWordsReplace

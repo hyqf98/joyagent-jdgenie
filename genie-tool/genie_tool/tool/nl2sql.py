@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # =====================
-# 
-# 
+#
+#
 # Author: liuwen.92
 # Date:   2025/09/12
 # =====================
@@ -26,8 +26,8 @@ class NL2SQLAgent:
         self.rewrite_llm_name = os.getenv("REWRITE_MODEL_NAME")
         self.think_llm_name = os.getenv("THINK_MODEL_NAME")
         self.default_model: str = "gpt-4.1"
-        self.temperature: float = 0.0
-        self.top_p: float = 0.0
+        self.temperature: float = 0.7
+        self.top_p: float = 0.7
 
     @timer(key="rewrite_query")
     async def _text_to_rewrite(self, request_id,
@@ -115,7 +115,7 @@ class NL2SQLAgent:
         logger.info(f"[NL2SQL] [THINK] request_id={request_id} think模块执行完成。 model_name={model}")
         logger.info(f"[NL2SQL] [THINK] request_id={request_id} final_response={json.dumps(final_response, ensure_ascii=False)}")
         return response["nl2sql_think"]
-    
+
     def m_schema_trans(self,
                        table_id: str,
                        column_schema_lists: List[Dict],
@@ -230,7 +230,7 @@ class NL2SQLAgent:
         logger.info(f"[NL2SQL] request_id={request_id} nl2sql模块执行完成。 model_name={model}")
         logger.info(f"[NL2SQL] request_id={request_id} response={json.dumps(response, ensure_ascii=False)}")
         return response
-    
+
     async def m_schema_format(self, rank_result: List):
         m_schema_info = []
         # 并行处理表结构转换
@@ -262,15 +262,15 @@ class NL2SQLAgent:
             logger.info(f"[NL2SQL] request_id={request_id}, {query=}")
             # 精排任务：rank
             rank_module = ColumnFilterModule(request_id=request_id,
-                                             query=query, 
-                                             current_date_info=current_date_info, 
-                                             table_id_list=table_id_list, 
+                                             query=query,
+                                             current_date_info=current_date_info,
+                                             table_id_list=table_id_list,
                                              column_info=column_info)
             rank_task = asyncio.create_task(rank_module.batch_get_result())
             # 改写任务：rewrite
             rewrite_task = asyncio.create_task(
                 self._text_to_rewrite(request_id=request_id,
-                                      query=query, 
+                                      query=query,
                                       model=self.default_model if self.rewrite_llm_name == "" else self.rewrite_llm_name,
                                       temperature=self.temperature,
                                       top_p=self.top_p)
@@ -282,8 +282,8 @@ class NL2SQLAgent:
             # 处理think的流式输出并同时收集完整结果
             full_thinking = await self._collect_think_results(request_id=request_id,
                                             query=query,
-                                            current_date_info=current_date_info, 
-                                            m_schema_formatted=m_schema_formatted, 
+                                            current_date_info=current_date_info,
+                                            m_schema_formatted=m_schema_formatted,
                                             model=self.default_model if self.think_llm_name == "" else self.think_llm_name,
                                             temperature=self.temperature,
                                             top_p=self.top_p)
@@ -291,8 +291,8 @@ class NL2SQLAgent:
             nl2sql_response = await self._nl2sql_convert(request_id=request_id,
                                                          rewritten_query=rewritten_query,
                                                          thinking_result=full_thinking,
-                                                         current_date_info=current_date_info, 
-                                                         m_schema_formatted=m_schema_formatted, 
+                                                         current_date_info=current_date_info,
+                                                         m_schema_formatted=m_schema_formatted,
                                                          model=self.default_model if self.nl2sql_llm_name == "" else self.nl2sql_llm_name,
                                                          temperature=self.temperature,
                                                          top_p=self.top_p,

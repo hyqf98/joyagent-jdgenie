@@ -209,11 +209,11 @@ public class GenieController {
                     htmlTool.setAgentContext(agentContext);
                     toolCollection.addTool(htmlTool);
                 }
-                if (agentToolList.contains("search")) {
-                    DeepSearchTool deepSearchTool = new DeepSearchTool();
-                    deepSearchTool.setAgentContext(agentContext);
-                    toolCollection.addTool(deepSearchTool);
-                }
+                // if (agentToolList.contains("search")) {
+                //     DeepSearchTool deepSearchTool = new DeepSearchTool();
+                //     deepSearchTool.setAgentContext(agentContext);
+                //     toolCollection.addTool(deepSearchTool);
+                // }
                 if (agentToolList.contains("data_analysis")) {
                     DataAnalysisTool dataAnalysisTool = new DataAnalysisTool();
                     dataAnalysisTool.setAgentContext(agentContext);
@@ -282,4 +282,3 @@ public class GenieController {
     }
 
 }
-    

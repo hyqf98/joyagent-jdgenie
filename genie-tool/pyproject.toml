@@ -34,3 +34,6 @@ dependencies = [
     "tabulate>=0.9.0",
     "uvicorn>=0.35.0",
 ]
+
+[[index]]
+url = "https://pypi.mirrors.ustc.edu.cn/simple/"
