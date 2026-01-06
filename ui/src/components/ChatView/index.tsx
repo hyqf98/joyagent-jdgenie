@@ -41,7 +41,7 @@ const ChatView: GenieType.FC<Props> = (props) => {
   const combineCurrentChat = (
     inputInfo: CHAT.TInputInfo,
     sessionId: string,
-    requestId: string
+    requestId: string,
   ): CHAT.ChatItem => {
     return {
       query: inputInfo.message!,
@@ -86,7 +86,7 @@ const ChatView: GenieType.FC<Props> = (props) => {
         const taskData = handleTaskData(
           currentChat,
           deepThink,
-          currentChat.multiAgent
+          currentChat.multiAgent,
         );
         currentChat.loading = false;
         setLoading(false);
@@ -101,7 +101,7 @@ const ChatView: GenieType.FC<Props> = (props) => {
             const taskData = handleTaskData(
               currentChat,
               deepThink,
-              currentChat.multiAgent
+              currentChat.multiAgent,
             );
             setTaskList(taskData.taskList);
             temporaryChangeTask(taskData.taskList);
@@ -136,14 +136,12 @@ const ChatView: GenieType.FC<Props> = (props) => {
       console.log("🚀 ~ close");
     };
 
-    querySSE(
-      {
-        body: params,
-        handleMessage,
-        handleError,
-        handleClose,
-      }
-    );
+    querySSE({
+      body: params,
+      handleMessage,
+      handleError,
+      handleClose,
+    });
   });
 
   const temporaryChangeTask = (taskList: MESSAGE.Task[]) => {
@@ -233,7 +231,7 @@ const ChatView: GenieType.FC<Props> = (props) => {
         handleError,
         handleClose,
       },
-      `${SERVICE_BASE_URL}/data/chatQuery`
+      `${SERVICE_BASE_URL}/data/chatQuery`,
     );
   };
 
@@ -287,9 +285,7 @@ const ChatView: GenieType.FC<Props> = (props) => {
             })}
           </div>
           <GeneralInput
-            placeholder={
-              loading ? "任务进行中" : "希望 Genie 为你做哪些任务呢？"
-            }
+            placeholder={loading ? "任务进行中" : "希望 AI 为你做哪些任务呢？"}
             showBtn={false}
             size="medium"
             disabled={loading}
@@ -348,7 +344,7 @@ const ChatView: GenieType.FC<Props> = (props) => {
           })}
         </div>
         <GeneralInput
-          placeholder={loading ? "任务进行中" : "希望 Genie 为你做哪些任务呢？"}
+          placeholder={loading ? "任务进行中" : "希望 AI 为你做哪些任务呢？"}
           showBtn={false}
           size="medium"
           disabled={loading}

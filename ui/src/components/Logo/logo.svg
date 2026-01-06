@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 474 756" fill="none">
+  <!-- Dark blue top stroke -->
+  <path d="M1.5 262H242L462 0V120L242 382L462 262V756L1.5 262Z" fill="#1B4F72"/>
+
+  <!-- Cyan/turquoise middle stroke -->
+  <path d="M242 262L462 120V262L242 524L462 404V756L242 262Z" fill="#5DADE2"/>
+
+  <!-- Green bottom stroke -->
+  <path d="M242 404L462 262V404L242 666L462 546V756L242 404Z" fill="#58D68D"/>
+
+  <!-- Blue circle -->
+  <circle cx="350" cy="600" r="120" fill="#2E86C1"/>
+
+  <!-- White inner circle -->
+  <circle cx="350" cy="600" r="80" fill="white"/>
+
+  <!-- Green leaf -->
+  <path d="M380 680L420 720L400 700C395 695 390 688 390 680C390 670 395 665 400 660L420 640L380 680Z" fill="#58D68D"/>
+</svg>

@@ -1,24 +1,10 @@
-import Lottie from 'react-lottie';
-import { animationData } from './animation';
+import logo from "@/assets/logo.jpg";
 
-const Slogn: GenieType.FC = () => {
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-      className: 'lottie'
-    },
-  };
+const Slogn = () => {
   return (
-    <div className='mb-54'>
-      <Lottie options={defaultOptions}
-        height={68}
-        width={200}
-      />
+    <div className="mb-54">
+      <img src={logo} alt="logo" width={80} />
     </div>
-
   );
 };
 
