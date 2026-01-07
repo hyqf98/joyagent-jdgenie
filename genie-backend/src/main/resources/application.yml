@@ -126,7 +126,7 @@ autobots:
     code_interpreter_url: "http://127.0.0.1:1601"
     deep_search_url: "http://127.0.0.1:1601"
     mcp_client_url: "http://127.0.0.1:8188"
-    mcp_server_url: "https://mcp.api-inference.modelscope.net/1784ac5c6d0044/sse, http://192.168.2.116:20310/sse"
+    mcp_server_url: "https://mcp.api-inference.modelscope.net/1784ac5c6d0044/sse, http://192.168.2.189:20310/sse"
     knowledge_url: "http://127.0.0.1:1601"
     data_analysis_url: "http://127.0.0.1:1601"
     summary:
