@@ -21,11 +21,12 @@ RUN ./build.sh
 FROM docker.m.daocloud.io/library/python:3.11-slim as python-base
 WORKDIR /app
 
-RUN rm /etc/apt/sources.list.d/* && echo 'deb https://mirrors.aliyun.com/debian/ bookworm main contrib non-free non-free-firmware' \
+# 替换当前的阿里云源为以下更稳定的配置
+RUN rm /etc/apt/sources.list.d/* && echo 'deb https://mirrors.aliyun.com/debian/ trixie main contrib non-free non-free-firmware' \
       > /etc/apt/sources.list && \
-    echo 'deb https://mirrors.aliyun.com/debian-security bookworm-security main contrib non-free non-free-firmware' \
+    echo 'deb https://mirrors.aliyun.com/debian-security trixie-security main contrib non-free non-free-firmware' \
       >> /etc/apt/sources.list && \
-    echo 'deb https://mirrors.aliyun.com/debian/ bookworm-updates main contrib non-free non-free-firmware' \
+    echo 'deb https://mirrors.aliyun.com/debian/ trixie-updates main contrib non-free non-free-firmware' \
       >> /etc/apt/sources.list
 
 RUN apt-get clean && \
@@ -36,22 +37,25 @@ RUN apt-get clean && \
     procps \
     curl \
     && rm -rf /var/lib/apt/lists/*
-RUN pip install uv
+RUN pip install uv -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 
 # 最终运行阶段
 FROM docker.m.daocloud.io/library/python:3.11-slim
 
 # 安装系统依赖
-RUN rm /etc/apt/sources.list.d/* && echo 'deb https://mirrors.aliyun.com/debian/ bookworm main contrib non-free non-free-firmware' \
+RUN rm /etc/apt/sources.list.d/* && echo 'deb https://mirrors.aliyun.com/debian/ trixie main contrib non-free non-free-firmware' \
       > /etc/apt/sources.list && \
-    echo 'deb https://mirrors.aliyun.com/debian-security bookworm-security main contrib non-free non-free-firmware' \
+    echo 'deb https://mirrors.aliyun.com/debian-security trixie-security main contrib non-free non-free-firmware' \
       >> /etc/apt/sources.list && \
-    echo 'deb https://mirrors.aliyun.com/debian/ bookworm-updates main contrib non-free non-free-firmware' \
+    echo 'deb https://mirrors.aliyun.com/debian/ trixie-updates main contrib non-free non-free-firmware' \
       >> /etc/apt/sources.list
+
 RUN apt-get clean && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    openjdk-17-jre-headless \
+    wget \
+    gnupg \
+    ca-certificates \
     netcat-openbsd \
     procps \
     curl \
@@ -59,6 +63,18 @@ RUN apt-get clean && \
     npm \
     && rm -rf /var/lib/apt/lists/* \
     && npm install -g pnpm
+
+# 安装 Adoptium OpenJDK 17
+RUN wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor > /usr/share/keyrings/adoptium.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/adoptium.gpg] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" > /etc/apt/sources.list.d/adoptium.list \
+    && apt-get update \
+    && apt-get install -y temurin-17-jre \
+    && rm -rf /var/lib/apt/lists/*
+
+# 设置 JAVA_HOME 环境变量
+ENV JAVA_HOME=/usr/lib/jvm/temurin-17-jre-amd64
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
 
 # 设置工作目录
 WORKDIR /app
@@ -85,7 +101,9 @@ COPY genie-client/main.py genie-client/server.py genie-client/start.sh ./
 RUN chmod +x start.sh && \
     uv venv .venv && \
     . .venv/bin/activate && \
-    export UV_DEFAULT_INDEX="https://pypi.tuna.tsinghua.edu.cn/simple" && uv sync
+    export UV_DEFAULT_INDEX="https://mirrors.aliyun.com/pypi/simple/" && \
+    uv sync
+    #export UV_DEFAULT_INDEX="https://pypi.tuna.tsinghua.edu.cn/simple" && uv sync
 
 # 复制 genie-tool
 WORKDIR /app/tool
@@ -97,7 +115,7 @@ COPY genie-tool/server.py genie-tool/start.sh genie-tool/.env_template ./
 RUN chmod +x start.sh && \
     uv venv .venv && \
     . .venv/bin/activate && \
-    export UV_DEFAULT_INDEX="https://pypi.tuna.tsinghua.edu.cn/simple" && uv sync && \
+    export UV_DEFAULT_INDEX="https://mirrors.aliyun.com/pypi/simple/" && uv sync && \
     mkdir -p /data/genie-tool && \
     cp .env_template .env && \
     python -m genie_tool.db.db_engine

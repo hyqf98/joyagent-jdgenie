@@ -1,0 +1,11 @@
+services:
+  genie:
+    image: harbor.zhxx.site/app/genie # ${branch:-test}:${tag:-latest}
+    restart: on-failure:5
+    container_name: genie
+    hostname: genie
+    network_mode: "host"
+    volumes:
+      - "/tmp:/mnt/tmp"
+      - "/etc/localtime:/etc/localtime"
+      - "./upload:/mnt/upload"
