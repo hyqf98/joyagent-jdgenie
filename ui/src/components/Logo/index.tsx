@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import logo from "./logo.png";
+import logo from "@/assets/logo.jpg";
 
 const Logo: GenieType.FC<{
   hideSplit?: boolean;
